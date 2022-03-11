@@ -1,41 +1,44 @@
 package com.example.contohrecycler
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.contohrecycler.databinding.ItemRowHeroBinding
 
-class ListHeroAdapter (private val listHero: ArrayList<Hero>): RecyclerView.Adapter<ListHeroAdapter.ListViewHolder>() {
-    private lateinit var onItemClickCallback: OnItemClickCallback
+class ListHeroAdapter: RecyclerView.Adapter<ListHeroAdapter.ListViewHolder>() {
+    private var listHero = arrayListOf<Hero>()
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
+    fun submitList(heroList: ArrayList<Hero>){
+        listHero = heroList
     }
-    class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgPhoto: ImageView = itemView.findViewById(R.id.img_item_photo)
-        var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
-        var tvDescription: TextView = itemView.findViewById(R.id.tv_item_description)
 
-    }
-    interface OnItemClickCallback {
-        fun onItemClicked(data: Hero)
+    class ListViewHolder(private val binding: ItemRowHeroBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(hero: Hero){
+            with(binding){
+                tvItemName.text = hero.name
+                tvItemDescription.text = hero.description
+                imgItemPhoto.setImageResource(hero.photo)
+                itemView.setOnClickListener{
+                    val intent = Intent(itemView.context, DetailHeroesActivity::class.java)
+                    intent.putExtra(DetailHeroesActivity.EXTRA_DATA, hero)
+                    itemView.context.startActivities(arrayOf(intent))
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_row_hero, parent, false)
-        return ListViewHolder(view)
+        val listHeroBinding = ItemRowHeroBinding.inflate(LayoutInflater.from(parent.context), parent,false)
+        return ListViewHolder(listHeroBinding)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (name, description, photo) = listHero[position]
-        holder.imgPhoto.setImageResource(photo)
-        holder.tvName.text = name
-        holder.tvDescription.text = description
-        holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listHero[holder.adapterPosition])
-        }
+        val hero = listHero[position]
+        holder.bind(hero)
     }
 
     override fun getItemCount(): Int = listHero.size

@@ -1,25 +1,32 @@
 package com.example.contohrecycler
 
 import android.content.res.Configuration
+import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.contohrecycler.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var rvHeroes: RecyclerView
-    private val list = ArrayList<Hero>()
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var listHeroAdapter: ListHeroAdapter
+    private lateinit var dataName: Array<String>
+    private lateinit var dataDescription: Array<String>
+    private lateinit var dataPhoto: TypedArray
+    private var heroes = arrayListOf<Hero>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        rvHeroes = findViewById(R.id.rv_heroes)
-        rvHeroes.setHasFixedSize(true)
+        binding.rvHeroes.setHasFixedSize(true)
 
-        list.addAll(listHeroes)
         showRecyclerList()
+        listHeroAdapter.submitList(listHeroes)
     }
     private val listHeroes: ArrayList<Hero>
         get() {
@@ -35,19 +42,11 @@ class MainActivity : AppCompatActivity() {
         }
     private fun showRecyclerList() {
         if (applicationContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            rvHeroes.layoutManager = GridLayoutManager(this, 2)
+            binding.rvHeroes.layoutManager = GridLayoutManager(this, 2)
         } else {
-            rvHeroes.layoutManager = LinearLayoutManager(this)
+            binding.rvHeroes.layoutManager = LinearLayoutManager(this)
         }
-        val listHeroAdapter = ListHeroAdapter(list)
-        rvHeroes.adapter = listHeroAdapter
-        listHeroAdapter.setOnItemClickCallback(object : ListHeroAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Hero) {
-                showSelectedHero(data)
-            }
-        })
-    }
-    private fun showSelectedHero(hero: Hero) {
-        Toast.makeText(this, "Kamu memilih " + hero.name, Toast.LENGTH_SHORT).show()
+        listHeroAdapter = ListHeroAdapter()
+        binding.rvHeroes.adapter = listHeroAdapter
     }
 }
