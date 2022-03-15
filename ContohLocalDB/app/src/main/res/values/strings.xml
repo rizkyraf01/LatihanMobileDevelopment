@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ContohLocalDB</string>
+    <string name="date">Date</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="add_note_button">Add note button</string>
+    <string name="submit">Submit</string>
+    <string name="delete">Delete</string>
 </resources>
