@@ -12,6 +12,7 @@ import com.andan.contohlocaldb.adapter.NoteAdapter
 import com.andan.contohlocaldb.database.NoteHelper
 import com.andan.contohlocaldb.databinding.ActivityMainBinding
 import com.andan.contohlocaldb.entity.Note
+import com.andan.contohlocaldb.helper.MappingHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
