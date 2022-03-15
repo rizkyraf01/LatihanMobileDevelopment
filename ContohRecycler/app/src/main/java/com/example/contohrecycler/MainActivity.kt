@@ -25,17 +25,17 @@ class MainActivity : AppCompatActivity() {
         listHeroAdapter.submitList(listHeroes)
     }
     private val listHeroes: ArrayList<Hero>
-        get() {
-            val dataName = resources.getStringArray(R.array.data_name)
-            val dataDescription = resources.getStringArray(R.array.data_description)
-            val dataPhoto = resources.obtainTypedArray(R.array.data_photo)
-            val listHero = ArrayList<Hero>()
-            for (i in dataName.indices) {
-                val hero = Hero(dataName[i],dataDescription[i], dataPhoto.getResourceId(i, -1))
-                listHero.add(hero)
-            }
-            return listHero
+    get() {
+        val dataName = resources.getStringArray(R.array.data_name)
+        val dataDescription = resources.getStringArray(R.array.data_description)
+        val dataPhoto = resources.obtainTypedArray(R.array.data_photo)
+        val listHero = ArrayList<Hero>()
+        for (i in dataName.indices) {
+            val hero = Hero(dataName[i],dataDescription[i], dataPhoto.getResourceId(i, -1))
+            listHero.add(hero)
         }
+        return listHero
+    }
     private fun showRecyclerList() {
         if (applicationContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             binding.rvHeroes.layoutManager = GridLayoutManager(this, 2)
