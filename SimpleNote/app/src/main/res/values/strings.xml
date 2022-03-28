@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Simple Note</string>
+    <string name="title">Title</string>
+    <string name="text">Text</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="id">Id</string>
+    <string name="view">view</string>
+    <string name="update">update</string>
+</resources>
